@@ -1,8 +1,11 @@
 % The code is for research purpose only.
 % experimental test on MIT RetargetMe dataset, 
 % Code by Yabin Zhang, for the ICASSP paper
-% [1] Aspect Ratio Similarity (ARS) for Image Retargeting Quality Assessment. 
-% Yabin Zhang, Weisi Lin, Xinfeng Zhang, Yuming Fang, Leida Li, ICASSP 2016
+% [1] Yabin Zhang, Weisi Lin, Xinfeng Zhang, Yuming Fang, Leida Li.
+% Aspect Ratio Similarity (ARS) for Image Retargeting Quality Assessment. ICASSP 2016
+% [2] Yabin Zhang, Yuming Fang, Weisi Lin, Xinfeng Zhang, Leida Li.
+% Backward Registration-Based Aspect Ratio Similarity for Image Retargeting Quality Assessment.
+% Transaction on Image Processing (TIP), 2016.
 
 % To run the code
 % prepare the RetargetMe dataset and correct the root path
