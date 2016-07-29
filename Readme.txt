@@ -9,8 +9,9 @@
 
 The code has been tested on the Windows 7 64-bit OS.
 To run the code: prepare the MIT RetargetMe dataset and then run the MIT_ARS_main.m
+
 Note that it takes around 1.5 hours on Win 7 (i5 @3.2GHz and 16GB ram).
 
-NOTE: if the mex files are incompatible, run the COMPUTE_MEX.m, and replace the existing mex files with the new generated ones.
+NOTE: if the mex files are incompatible, run the COMPUTE_MEX.m to replace the existing mex files with the new generated ones.
 
 MIT RetargetMe dataset: http://people.csail.mit.edu/mrub/retargetme/
