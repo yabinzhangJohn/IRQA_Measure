@@ -12,7 +12,7 @@
 
 clear all; clc
 %% path and other initial information
-PATH_ROOT = '****'; % the path direct to the MIT dataset
+PATH_ROOT = 'D:\IRQA\MIT dataset\'; % the path direct to the MIT dataset
 % load the subjective data (put the subjData at the same path)
 load([PATH_ROOT 'subjData-ref_37.mat'])
 subj_data = subjData.data;

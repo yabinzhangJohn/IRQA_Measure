@@ -81,8 +81,3 @@ for face_im_i = 1:FACE_IM_NUM
     end
 
 end
-
-% save MIT_FBS
-save('tmp_feat_data\MIT_FBS.mat', 'MIT_FBS_score');
-disp('>> - FBS feature generation complete!');
-

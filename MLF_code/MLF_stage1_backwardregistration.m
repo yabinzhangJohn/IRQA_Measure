@@ -1,11 +1,11 @@
 smap_path = '../ARS_code/MIT_smap/';
-disp('>>> start backward registration ...');
+disp('  >>  start backward registration ...');
 for set_num = 1:SET_NUM
-    disp(['>>> #' num2str(set_num, '%03.0f') ' set --- ' PATH_NAME{set_num} '.']);
+    disp(['  >> BR #' num2str(set_num, '%03.0f') ' set --- ' PATH_NAME{set_num} '.']);
     % read the image set
     path = [PATH_ROOT PATH_NAME{set_num} '\'];
     file = dir([path,'*.png']);
-    im_org =  imread([path file(1).name]);
+    im_org = imread([path file(1).name]);
     retarget_name = zeros(OP_NUM,1);
     for i = 1:OP_NUM
         for j = 1 : size(file,1)
@@ -23,7 +23,7 @@ for set_num = 1:SET_NUM
     for op_num = 1:OP_NUM
         im_ret_set{op_num} = imread([path file(retarget_name(op_num)).name]);
     end
-    smap =  imread([smap_path PATH_NAME{set_num} '_smap.png']);
+    smap = imread([smap_path PATH_NAME{set_num} '_smap.png']);
     All_img_org{set_num} = im_org;
     All_smap{set_num} = smap;
     for op_num = 1:OP_NUM
@@ -35,5 +35,4 @@ for set_num = 1:SET_NUM
         All_YY{set_num,op_num} = foo_YY;
     end
 end
-
-
+   

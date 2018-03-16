@@ -3,7 +3,7 @@ function [prediction_score] ...
 % Summary of this function goes here
 %   Detailed explanation goes here
     OUTPUT_PREC = '%0.4f';
-    fid = fopen('rankSVM/tmp_data/test_data_rbf.dat','wt');
+    fid = fopen('RankSVM/tmp_test_data_rbf.dat','wt');
     [SET_NUM, OP_NUM] = size(feat1);
     for set_num = 1:SET_NUM
         for op_num = 1:OP_NUM
@@ -17,12 +17,12 @@ function [prediction_score] ...
     end
     fclose(fid);
     
-    cmd_test = ['rankSVM\svm_rank_classify  -v 0 ' ...
-        ' rankSVM/tmp_data/test_data_rbf.dat' ...
-        ' rankSVM/tmp_data/model_rbf rankSVM/tmp_data/prediction_rbf'];
+    cmd_test = ['RankSVM\svm_rank_classify  -v 0 ' ...
+        ' RankSVM/tmp_test_data_rbf.dat' ...
+        ' RankSVM/tmp_model_rbf RankSVM/tmp_prediction_rbf'];
     system(cmd_test);
     
-    fileID = fopen('rankSVM/tmp_data/prediction_rbf','r');
+    fileID = fopen('RankSVM/tmp_prediction_rbf','r');
     prediction_score_tmp = fscanf(fileID,'%f');
     fclose(fileID);
     

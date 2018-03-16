@@ -10,7 +10,7 @@
 clear all; clc
 tic
 %% path and other initial information
-PATH_ROOT = '..\..\MIT dataset\'; % the path direct to the MIT dataset
+PATH_ROOT = 'D:\IRQA\MIT dataset\'; % the path direct to the MIT dataset
 % load the subjective data (put the subjData at the same path)
 load([PATH_ROOT 'subjData-ref_37.mat'])
 subj_data = subjData.data;
@@ -50,9 +50,6 @@ MLF_stage2_feat_egs
 MLF_stage2_feat_fbs
 
 %% LOOCV with SVM rank
-load('tmp_feat_data\MIT_ARS.mat')
-load('tmp_feat_data\MIT_EGS.mat')
-load('tmp_feat_data\MIT_FBS.mat')
 feat_ars = MIT_ARS_score;
 feat_egs = MIT_EGS_score;
 feat_fbs = MIT_FBS_score;
@@ -75,7 +72,7 @@ for set_num = 1:SET_NUM
         feat_egs_test, feat_fbs_test, subj_data_test);
     obj_score(set_num, :) = pred_score;
 end
-KRCC_eval(subj_data, obj_score);
+KRCC_eval(subj_data, feat_ars);
 
 total_computation_time = toc;
 disp(['Total computation time: ' num2str(total_computation_time, '%0.1f') 's']);

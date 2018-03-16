@@ -52,9 +52,3 @@ for set_num = 1:SET_NUM
         MIT_ARS_score(set_num, op_num) =sum(foo_score(:));
     end    
 end
-
-% save MIT_ARS
-save('tmp_feat_data\MIT_ARS.mat', 'MIT_ARS_score');
-disp('>> - ARS feature generation complete!');
-
-

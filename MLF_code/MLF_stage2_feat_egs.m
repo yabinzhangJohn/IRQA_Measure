@@ -8,8 +8,8 @@ addpath(genpath([EDGEBOX_PATH 'toolbox']));
 model=load([EDGEBOX_PATH 'models\forest\modelBsds']);
 model=model.model; model.opts.multiscale=0;
 model.opts.sharpen=2; model.opts.nThreads=4;
-% set up opts for edgeBoxes
-opts = edgeBoxes;
+% set up opts for edgeGroup
+opts = edgeGroup;
 opts.alpha = .65;
 opts.beta  = .75; 
 opts.minScore = .01; 
@@ -49,8 +49,9 @@ for set_num = 1:SET_NUM
             else
                 EhR_max = max(abs([edge_selfdiff_org(:,1); edge_selfdiff_ret(:,1)]));
                 EwR_max = max(abs([edge_selfdiff_org(:,2); edge_selfdiff_ret(:,2)]));
-                Edge_im_ret = uint8(255*ones(EhR_max*2+1+2*PAD_SIZE,...
-                    EwR_max*2+1+2*PAD_SIZE));
+                Edge_im_ret_h = EhR_max*2+1+2*PAD_SIZE;
+                Edge_im_ret_w = EwR_max*2+1+2*PAD_SIZE;
+                Edge_im_ret = uint8(255*ones(Edge_im_ret_h,Edge_im_ret_w));
                 edge_ret_tb = edge_selfdiff_ret;
                 edge_ret_tb(:,1) = edge_ret_tb(:,1) + EhR_max+1+PAD_SIZE;
                 edge_ret_tb(:,2) = edge_ret_tb(:,2) + EwR_max+1+PAD_SIZE;
@@ -63,19 +64,21 @@ for set_num = 1:SET_NUM
                 dt_edge_ret = dt_edge_ret.^0.5;
                 CM_Dist = zeros(2*PAD_SIZE+1, 2*PAD_SIZE+1);
 
-                for i = -PAD_SIZE:PAD_SIZE
-                    for j = -PAD_SIZE:PAD_SIZE
-                        query_edge = edge_selfdiff_org;
-                        query_edge(:,1) = query_edge(:,1) + i+ EhR_max+1+PAD_SIZE;
-                        query_edge(:,2) = query_edge(:,2) + j+ EwR_max+1+PAD_SIZE;
-                        query_edge_linear = sub2ind...
-                            ([EhR_max*2+1+2*PAD_SIZE, EwR_max*2+1+2*PAD_SIZE],...
+                query_edge = edge_selfdiff_org;                
+                query_edge(:,1) = query_edge(:,1) + EhR_max+1;
+                query_edge(:,2) = query_edge(:,2) + EwR_max+1;
+                query_edge_linear_S = sub2ind...
+                            ([Edge_im_ret_h, Edge_im_ret_w],...
                             query_edge(:,1),  query_edge(:,2));
+                for j = -PAD_SIZE:PAD_SIZE
+                    query_edge_linear = query_edge_linear_S ...
+                        + (j+PAD_SIZE)*Edge_im_ret_h;
+                    for i = -PAD_SIZE:PAD_SIZE
                         dist_arry = dt_edge_ret(query_edge_linear);
                         CM_Dist(i+PAD_SIZE+1, j+PAD_SIZE+1) = sum(sum(dist_arry));
+                        query_edge_linear = query_edge_linear + 1;
                     end
                 end
-
 
                 CM_Dist = CM_Dist/Edge_size;
                 CM_min = min(CM_Dist(:));
@@ -96,9 +99,3 @@ for set_num = 1:SET_NUM
     end
 end
 MIT_EGS_score = exp(-Beta_egs * All_avg_cmd.^0.5);
-
-% save MIT_EGS
-save('tmp_feat_data\MIT_EGS.mat', 'MIT_EGS_score');
-disp('>> - EGS feature generation complete!');
-
-
