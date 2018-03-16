@@ -8,6 +8,7 @@
 % prepare the MIT RetargetMe dataset and correct the root path
 
 clear all; clc
+tic
 %% path and other initial information
 PATH_ROOT = '..\..\MIT dataset\'; % the path direct to the MIT dataset
 % load the subjective data (put the subjData at the same path)
@@ -31,31 +32,31 @@ operator_name = {'CR', 'SV', 'MOP', 'SC', 'SCL', 'SM', 'SNS', 'WARP'};
 operator_id = {'cr', 'sv', 'multiop', 'sc.', 'scl', 'sm', 'sns', 'warp'}; 
 
 addpath('Utilities\')
-Alpha = 0.7;
-Beta = 0.2;
+addpath('RankSVM\');
+addpath('..\ARS_code\');
+EDGEBOX_PATH = 'EdgeGroup\';
+DT_PATH = 'DT\';
+
+Alpha_ars = 0.7;
+Beta_egs = 0.2;
 C_ars = 1e-6; % to avoid the division by zero.
 
 %% backward registration
-addpath('..\ARS_code\');
 MLF_stage1_backwardregistration
 
 %% feature generation
-tic
 MLF_stage2_feat_ars
 MLF_stage2_feat_egs
 MLF_stage2_feat_fbs
-feat_computation_time = toc;
-disp(['Feature generation time: ' num2str(feat_computation_time, '%0.1f') 's']);
 
 %% LOOCV with SVM rank
-addpath('rankSVM\');
 load('tmp_feat_data\MIT_ARS.mat')
 load('tmp_feat_data\MIT_EGS.mat')
 load('tmp_feat_data\MIT_FBS.mat')
 feat_ars = MIT_ARS_score;
-feat_egs = exp( -0.2 * All_avg_cmd.^0.5);
-
+feat_egs = MIT_EGS_score;
 feat_fbs = MIT_FBS_score;
+
 C = 2^4.8;  gamma = 2^3.2; 
 for set_num = 1:SET_NUM
     disp(['  ######## set_num = ' num2str(set_num)]);
@@ -74,7 +75,20 @@ for set_num = 1:SET_NUM
         feat_egs_test, feat_fbs_test, subj_data_test);
     obj_score(set_num, :) = pred_score;
 end
-clc;
-KRCC_eval(subj_data, obj_score, true);
+KRCC_eval(subj_data, obj_score);
+
+total_computation_time = toc;
+disp(['Total computation time: ' num2str(total_computation_time, '%0.1f') 's']);
+
+
+
+
+
+
+
+
+
+
+
 
 
