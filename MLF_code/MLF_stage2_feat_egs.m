@@ -1,4 +1,4 @@
-
+% edge group similarity
 % dependence
 addpath([EDGEBOX_PATH]);
 addpath(DT_PATH);
@@ -11,27 +11,27 @@ model.opts.sharpen=2; model.opts.nThreads=4;
 % set up opts for edgeGroup
 opts = edgeGroup;
 opts.alpha = .65;
-opts.beta  = .75; 
-opts.minScore = .01; 
-opts.maxBoxes = 1e4; 
+opts.beta  = .75;
+opts.minScore = .01;
+opts.maxBoxes = 1e4;
 opts.edgeMergeThr = 0.5;
 opts.edgeMinMag = 0.1;
-opts.clusterMinMag = 2; 
+opts.clusterMinMag = 2;
 
 PAD_SIZE = 20;
 
 for set_num = 1:SET_NUM
     disp(['  - EGS #' num2str(set_num, '%02.0f') ...
         ' [' PATH_NAME{set_num} ']  image set evaluating ...']);
-    
+
     im_org =  All_img_org{set_num};
     XX_set = All_XX(set_num, :); YY_set= All_YY(set_num, :);
-    
+
     [h_org, w_org, ~] = size(im_org);
     [h_ret, w_ret, ~] = size(All_img_ret{set_num, 1});
     [~, v_org, v_id_org, e_org, o_org] = edgeGroup(im_org,model,opts);
-        
-    for op_num = 1:OP_NUM 
+
+    for op_num = 1:OP_NUM
         im_ret = All_img_ret{set_num, op_num};
         [~, v_ret, v_id_ret, e_ret, o_ret] = edgeGroup(im_ret,model,opts);
         rowSub = YY_set{op_num}; colSub = XX_set{op_num};
@@ -64,7 +64,7 @@ for set_num = 1:SET_NUM
                 dt_edge_ret = dt_edge_ret.^0.5;
                 CM_Dist = zeros(2*PAD_SIZE+1, 2*PAD_SIZE+1);
 
-                query_edge = edge_selfdiff_org;                
+                query_edge = edge_selfdiff_org;
                 query_edge(:,1) = query_edge(:,1) + EhR_max+1;
                 query_edge(:,2) = query_edge(:,2) + EwR_max+1;
                 query_edge_linear_S = sub2ind...
@@ -94,7 +94,7 @@ for set_num = 1:SET_NUM
         edge_info = All_edge_info{set_num, op_num};
         edge_size = edge_info(:,2);
         edge_info(edge_size<10, :) = [];
-        avg_cmd = mean(edge_info(:,1));  
+        avg_cmd = mean(edge_info(:,1));
         All_avg_cmd(set_num, op_num) = avg_cmd;
     end
 end

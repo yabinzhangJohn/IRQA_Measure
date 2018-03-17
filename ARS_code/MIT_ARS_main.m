@@ -12,7 +12,7 @@
 
 clear all; clc
 %% path and other initial information
-PATH_ROOT = 'D:\IRQA\MIT dataset\'; % the path direct to the MIT dataset
+PATH_ROOT = '****'; % the path direct to the MIT dataset
 % load the subjective data (put the subjData at the same path)
 load([PATH_ROOT 'subjData-ref_37.mat'])
 subj_data = subjData.data;
@@ -35,7 +35,6 @@ operator_name = {'CR', 'SV', 'MOP', 'SC', 'SCL', 'SM', 'SNS', 'WARP'};
 operator_id = {'cr', 'sv', 'multiop', 'sc.', 'scl', 'sm', 'sns', 'warp'};    
 
 %% Backward Registration
-
 disp(' -------------------------------------------------------------------------------');
 disp('>>> start backward registration ...');
 for set_num = 1:SET_NUM
@@ -143,9 +142,3 @@ disp(' -------------------------------------------------------------------------
 disp(['Block size -- '  num2str(BLK_SIZE) '; coefficient alpha = ' num2str(ALPHA)]);
 disp(['mean KRCC = ' num2str(mean(KRCC), '%0.3f')]);
 disp(['std KRCC = ' num2str(std(KRCC), '%0.3f')]);
-
-
-
-
-
-
